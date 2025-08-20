@@ -23,7 +23,7 @@ public class UserController {
     @GetMapping
     public String list(Model model) {
         model.addAttribute("users", userService.findAll());
-        return "users"; // страница списка пользователей (админская)
+        return "users";
     }
 
     @GetMapping("/new")
