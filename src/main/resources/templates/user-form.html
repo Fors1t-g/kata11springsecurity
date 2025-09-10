@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${user.id} != null ? 'Редактировать пользователя' : 'Создать пользователя'">Форма пользователя</title>
+    <style>
+        form{max-width:480px}label{display:block;margin:10px 0 4px}input{width:100%;padding:8px}
+        .row{display:flex;gap:12px}.row > div{flex:1}
+    </style>
+</head>
+<body>
+
+<h1 th:text="${user.id} != null ? 'Редактировать пользователя' : 'Создать пользователя'"></h1>
+
+<form th:action="@{${user.id} != null ? '/admin/users/update' : '/admin/users/create'}"
+      th:object="${user}" method="post">
+    <input type="hidden" th:field="*{id}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+    <label for="username">Логин</label>
+    <input id="username" type="text" th:field="*{username}" required>
+
+    <label for="password">Пароль</label>
+    <input id="password" type="password"
+           th:field="*{password}"
+           th:placeholder="${user.id} != null ? 'Оставьте пустым — без изменений' : ''">
+
+    <div class="row">
+        <div>
+            <label for="name">Имя</label>
+            <input id="name" type="text" th:field="*{name}" required>
+        </div>
+        <div>
+            <label for="age">Возраст</label>
+            <input id="age" type="number" min="0" th:field="*{age}">
+        </div>
+    </div>
+
+    <label for="email">Email</label>
+    <input id="email" type="email" th:field="*{email}" required>
+
+    <div style="margin-top:14px;">
+        <button type="submit">Сохранить</button>
+        <a th:href="@{/admin/users}" style="margin-left:8px;">Отмена</a>
+    </div>
+</form>
+
+<form th:action="@{/logout}" method="post" style="margin-top:20px;">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <button type="submit">Выйти</button>
+</form>
+
+</body>
+</html>
